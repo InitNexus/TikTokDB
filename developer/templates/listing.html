@@ -320,7 +320,7 @@
   
   .theme-options { display: flex; flex-direction: column; gap: var(--gap); }
   .btn-theme {
-    width: 100%; padding: 9px var(--gap);
+    width: calc(100% - 16px); align-self: center; padding: 9px var(--gap);
     background: var(--accent-dim); border: 2px solid transparent;
     border-radius: var(--radius); color: var(--text);
     font-family: var(--font); font-size: 13px; font-weight: 600;
@@ -399,7 +399,18 @@
   }
   .side-menu.open { transform: translateX(0); }
 
-  .menu-header { display: flex; align-items: center; justify-content: flex-end; }
+  .menu-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .menu-panel { display: flex; flex-direction: column; gap: var(--gap); flex: 1; overflow-y: auto; }
+  .menu-back {
+    width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; border-radius: var(--radius); transition: opacity 0.15s ease; flex-shrink: 0;
+  }
+  .menu-back:hover { opacity: 0.7; }
+  .menu-back img { width: 16px; height: 16px; object-fit: contain; }
+  .menu-panel-title {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
   .menu-close {
     width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
     cursor: pointer; border-radius: var(--radius); transition: opacity 0.15s ease; flex-shrink: 0;
@@ -430,11 +441,12 @@
   .menu-footer-body span { font-size: 10px; color: var(--text-muted); }
 
   
-  .lang-options { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .lang-options { display: flex; flex-direction: column; gap: var(--gap); }
   .btn-lang {
     padding: 9px var(--gap); background: var(--accent-dim); border: 2px solid transparent;
     border-radius: var(--radius); color: var(--text); font-family: var(--font);
     font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s ease; text-align: center;
+    width: calc(100% - 16px); align-self: center;
   }
   .btn-lang:hover { opacity: 0.8; }
   .btn-lang.active { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -466,11 +478,12 @@
   }
   .btn-check-logs:hover { opacity: 0.8; }
 
-  .export-options { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .export-options { display: flex; flex-direction: column; gap: var(--gap); }
   .btn-export {
     padding: 9px var(--gap); background: var(--accent-dim); border: none;
     border-radius: var(--radius); color: var(--text); font-family: var(--font);
     font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s ease; text-align: center;
+    width: calc(100% - 16px); align-self: center;
   }
   .btn-export:hover { opacity: 0.8; }
 
@@ -589,6 +602,82 @@
     .overview-square .stat-label { font-size: 8px; }
   }
   @media (max-width: 400px) { :root { --gap: 6px; } }
+
+  .heatmap-container {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: var(--gap);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .heatmap-wrap {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
+  }
+
+    .heatmap-days {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .heatmap-day-spacer {
+    height: 14px;
+  }
+
+  .heatmap-day {
+    font-size: 9px;
+    color: var(--text-muted);
+    height: calc((100% - 14px - 3px * 7) / 7);
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .heatmap-grid-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  .heatmap-hours {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    gap: 3px;
+  }
+
+  .heatmap-hour {
+    font-size: 8px;
+    color: var(--text-muted);
+    text-align: center;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    gap: 3px;
+  }
+
+  .heatmap-cell {
+    aspect-ratio: 1;
+    background: var(--surface-2);
+    border-radius: 3px;
+    min-width: 0;
+  }
 </style>
 </head>
 <body>
@@ -856,7 +945,102 @@
         <div class="section-bar-left"><img src="../../assets/media/icons/analytics.png" alt=""><span data-translate="Advanced analytics">Advanced analytics</span></div>
         <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
       </div>
-      <div class="section-body"><p class="section-empty" data-translate="This section has no data to display.">This section has no data to display.</p></div>
+      <div class="section-body"><div class="data-rows">
+        <span class="data-group-label">Key Metrics</span>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Total Performance</span>
+        <div class="data-row"><span class="data-key">Total Comments</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Total Favourites</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Total Likes</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Total Shares</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Total Views</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Total Posts Analyzed</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Average (Per Post)</span>
+        <div class="data-row"><span class="data-key">Average Comments</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Favourites</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Likes</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Shares</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Views</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Engagement Ratios</span>
+        <div class="data-row"><span class="data-key">Comment To View</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Favourite To View</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Like To View</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Share To View</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Engagement Rate (Per Follower)</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Engagement Rate (Per View)</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label">Shadow Ban Assessment</span>
+        <div class="data-row"><span class="data-key">Percentage</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Chance</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Confidence</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Status</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label">Detailed Metrics</span>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Recent Performance</span>
+        <div class="data-row"><span class="data-key">Average Comments</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Likes</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Shares</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Views</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Engagement Rate</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Historical Performance</span>
+        <div class="data-row"><span class="data-key">Average Comments</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Likes</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Shares</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Average Views</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Engagement Rate</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label">Content Strategy</span>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Post Lengths</span>
+        <div class="data-row"><span class="data-key">Average</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Shortest</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Longest</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Optimal Range</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Consistency Score</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Top Hashtags Used</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Top Sounds Used</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Top Effects Used</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label">Viral Potential</span>
+        <div class="data-row"><span class="data-key">Percentage</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Chance</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Status</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label">Key Viral Indicators</span>
+        <div class="data-row"><span class="data-key">Viral Posts (&gt;100K Views)</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Best Performing Post</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label">Audience &amp; Posting Strategy</span>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Posting Frequency</span>
+        <div class="data-row"><span class="data-key">Average Posts (Per Week)</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Consistency Score</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Posting Times</span>
+        <div class="data-row"><span class="data-key">Most Active Day</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Most Active Hour</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Optimal Day</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Optimal Hour</span><span class="data-val">Unknown</span></div>
+        <span class="data-group-label" style="font-size:9px;text-transform:none;letter-spacing:0;color:var(--text-muted);padding-top:0;">Geographical Indicators</span>
+        <div class="data-row"><span class="data-key">Top Regions</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">Top Languages</span><span class="data-val">Unknown</span></div>
+        <div class="heatmap-container">
+          <span class="data-key" style="margin-bottom:6px;">Posting Heatmap</span>
+          <div class="heatmap-wrap">
+            <div class="heatmap-days">
+              <div class="heatmap-day-spacer"></div>
+              <div class="heatmap-day">Mon</div>
+              <div class="heatmap-day">Tue</div>
+              <div class="heatmap-day">Wed</div>
+              <div class="heatmap-day">Thu</div>
+              <div class="heatmap-day">Fri</div>
+              <div class="heatmap-day">Sat</div>
+              <div class="heatmap-day">Sun</div>
+            </div>
+            <div class="heatmap-grid-wrap">
+              <div class="heatmap-hours">
+                <div class="heatmap-hour">00</div><div class="heatmap-hour">01</div><div class="heatmap-hour">02</div><div class="heatmap-hour">03</div><div class="heatmap-hour">04</div><div class="heatmap-hour">05</div><div class="heatmap-hour">06</div><div class="heatmap-hour">07</div><div class="heatmap-hour">08</div><div class="heatmap-hour">09</div><div class="heatmap-hour">10</div><div class="heatmap-hour">11</div><div class="heatmap-hour">12</div><div class="heatmap-hour">13</div><div class="heatmap-hour">14</div><div class="heatmap-hour">15</div><div class="heatmap-hour">16</div><div class="heatmap-hour">17</div><div class="heatmap-hour">18</div><div class="heatmap-hour">19</div><div class="heatmap-hour">20</div><div class="heatmap-hour">21</div><div class="heatmap-hour">22</div><div class="heatmap-hour">23</div>
+              </div>
+              <div class="heatmap-grid" id="postingHeatmap"></div>
+            </div>
+          </div>
+        </div>
+        <span class="data-group-label">Top Performing Posts</span>
+        <div class="data-row"><span class="data-key">By Views</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">By Likes</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">By Comments</span><span class="data-val">Unknown</span></div>
+        <div class="data-row"><span class="data-key">By Shares</span><span class="data-val">Unknown</span></div>
+      </div></div>
     </div>
 
   </div>
@@ -889,35 +1073,119 @@
 
 <div class="side-menu" id="sideMenu">
   <div class="menu-header">
+    <div class="menu-back" id="menuBack" style="display:none;">
+      <img src="../../assets/media/icons/back.png" alt="Back">
+    </div>
+    <div style="flex:1;min-width:0;" id="menuPanelTitle"></div>
     <div class="menu-close" id="menuClose">
       <img src="../../assets/media/icons/close.png" alt="Close">
     </div>
   </div>
-  <div class="menu-options">
-    <div class="menu-option" data-label="Theme">
-      <div class="menu-option-left"><img src="../../assets/media/icons/theme.png" alt=""><span data-translate="Theme">Theme</span></div>
-      <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+
+  <div id="menuMain" class="menu-panel">
+    <div class="menu-options">
+      <div class="menu-option" data-panel="panelDesign">
+        <div class="menu-option-left"><img src="../../assets/media/icons/theme.png" alt=""><span>Design</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelLanguage">
+        <div class="menu-option-left"><img src="../../assets/media/icons/language.png" alt=""><span data-translate="Language">Language</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelTracking">
+        <div class="menu-option-left"><img src="../../assets/media/icons/tracking.png" alt=""><span data-translate="Tracking">Tracking</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelExport">
+        <div class="menu-option-left"><img src="../../assets/media/icons/export.png" alt=""><span data-translate="Export">Export</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      </div>
     </div>
-    <div class="menu-option" data-label="Language">
-      <div class="menu-option-left"><img src="../../assets/media/icons/language.png" alt=""><span data-translate="Language">Language</span></div>
-      <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
-    </div>
-    <div class="menu-option" data-label="Tracking">
-      <div class="menu-option-left"><img src="../../assets/media/icons/tracking.png" alt=""><span data-translate="Tracking">Tracking</span></div>
-      <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
-    </div>
-    <div class="menu-option" data-label="Export">
-      <div class="menu-option-left"><img src="../../assets/media/icons/export.png" alt=""><span data-translate="Export">Export</span></div>
-      <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+    <div class="menu-footer">
+      <div class="menu-footer-body">
+        <span>UtilityTok Database 1.0.2</span>
+        <span>UtilityTok Engine 0.0.8</span>
+        <span>UtilityTok AI 0.0.2-B1</span>
+      </div>
     </div>
   </div>
-  <div class="menu-footer">
-    <div class="menu-footer-body">
-      <span>UtilityTok Database 1.0.2</span>
-      <span>UtilityTok Engine 0.0.8</span>
-      <span>UtilityTok AI 0.0.2-B1</span>
+
+  <div id="panelDesign" class="menu-panel" style="display:none;">
+    <div class="menu-options">
+      <div class="menu-option" data-panel="panelTheme">
+        <div class="menu-option-left"><img src="../../assets/media/icons/theme.png" alt=""><span>Theme</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelIconStyle">
+        <div class="menu-option-left"><img src="../../assets/media/icons/style.png" alt=""><span>Icon style</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelSize">
+        <div class="menu-option-left"><img src="../../assets/media/icons/size.png" alt=""><span>Size</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      </div>
     </div>
   </div>
+
+  <div id="panelTheme" class="menu-panel" style="display:none;">
+    <div class="theme-options">
+      <button class="btn-theme active" data-theme-name="default">Default</button>
+      <button class="btn-theme" data-theme-name="light">Light</button>
+      <button class="btn-theme" data-theme-name="dark">Dark</button>
+      <button class="btn-theme" data-theme-name="midnight">Midnight</button>
+      <button class="btn-theme" data-theme-name="amoled">Amoled</button>
+    </div>
+  </div>
+
+  <div id="panelIconStyle" class="menu-panel" style="display:none;">
+    <div class="theme-options">
+      <button class="btn-theme" data-icon-style="outlined-rounded">Outlined / rounded</button>
+      <button class="btn-theme active" data-icon-style="filled-rounded">Filled / rounded</button>
+    </div>
+  </div>
+
+  <div id="panelSize" class="menu-panel" style="display:none;">
+    <div class="theme-options">
+      <button class="btn-theme active" data-size="small">Small</button>
+      <button class="btn-theme" data-size="medium">Medium</button>
+      <button class="btn-theme" data-size="large">Large</button>
+    </div>
+  </div>
+
+  <div id="panelLanguage" class="menu-panel" style="display:none;">
+    <div id="langTranslateStatus"></div>
+    <div class="lang-options">
+      <button class="btn-lang active" data-lang="en">English</button>
+      <button class="btn-lang" data-lang="fr">French</button>
+      <button class="btn-lang" data-lang="de">German</button>
+      <button class="btn-lang" data-lang="es">Spanish</button>
+      <button class="btn-lang" data-lang="ru">Russian</button>
+      <button class="btn-lang" data-lang="pt">Portuguese</button>
+      <button class="btn-lang" data-lang="zh">Chinese</button>
+      <button class="btn-lang" data-lang="ja">Japanese</button>
+    </div>
+  </div>
+
+  <div id="panelTracking" class="menu-panel" style="display:none;">
+    <div class="tracking-option">
+      <span class="tracking-option-label" data-translate="Enable tracking">Enable tracking</span>
+      <label class="toggle">
+        <input type="checkbox" id="trackingToggle">
+        <span class="toggle-track"></span>
+      </label>
+    </div>
+    <button class="btn-check-logs" data-translate="Check logs">Check logs</button>
+  </div>
+
+  <div id="panelExport" class="menu-panel" style="display:none;">
+    <div class="export-options">
+      <button class="btn-export">Text</button>
+      <button class="btn-export">HTML</button>
+      <button class="btn-export">JSON</button>
+      <button class="btn-export">CSV</button>
+    </div>
+  </div>
+
 </div>
 
 <div class="popup-backdrop" id="menuPopupBackdrop">
@@ -969,94 +1237,29 @@
   </div>
 </div>
 
-<div class="popup-backdrop" id="langPopupBackdrop">
-  <div class="popup">
-    <div class="popup-header">
-      <span class="popup-title" id="langPopupTitle" data-translate="Language">Language</span>
-      <div class="popup-close" id="langPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
-    </div>
-    <div id="langTranslateStatus"></div>
-    <div class="lang-options">
-      <button class="btn-lang active" data-lang="en">English</button>
-      <button class="btn-lang" data-lang="fr">French</button>
-      <button class="btn-lang" data-lang="de">German</button>
-      <button class="btn-lang" data-lang="es">Spanish</button>
-      <button class="btn-lang" data-lang="ru">Russian</button>
-      <button class="btn-lang" data-lang="pt">Portuguese</button>
-      <button class="btn-lang" data-lang="zh">Chinese</button>
-      <button class="btn-lang" data-lang="ja">Japanese</button>
-    </div>
-  </div>
-</div>
 
-<div class="popup-backdrop" id="trackingPopupBackdrop">
-  <div class="popup">
-    <div class="popup-header">
-      <span class="popup-title" data-translate="Tracking">Tracking</span>
-      <div class="popup-close" id="trackingPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
-    </div>
-    <div class="tracking-option">
-      <span class="tracking-option-label" data-translate="Enable tracking">Enable tracking</span>
-      <label class="toggle">
-        <input type="checkbox" id="trackingToggle">
-        <span class="toggle-track"></span>
-      </label>
-    </div>
-    <button class="btn-check-logs" data-translate="Check logs">Check logs</button>
-  </div>
-</div>
 
-<div class="popup-backdrop" id="exportPopupBackdrop">
-  <div class="popup">
-    <div class="popup-header">
-      <span class="popup-title" data-translate="Export">Export</span>
-      <div class="popup-close" id="exportPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
-    </div>
-    <div class="export-options">
-      <button class="btn-export">Text</button>
-      <button class="btn-export">HTML</button>
-      <button class="btn-export">JSON</button>
-      <button class="btn-export">CSV</button>
-    </div>
-  </div>
-</div>
 
-<div class="popup-backdrop" id="themePopupBackdrop">
-  <div class="popup">
-    <div class="popup-header">
-      <span class="popup-title" data-translate="Theme">Theme</span>
-      <div class="popup-close" id="themePopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
-    </div>
-    <div class="theme-options">
-      <button class="btn-theme active" data-theme-name="default">Default</button>
-      <button class="btn-theme" data-theme-name="light">Light</button>
-      <button class="btn-theme" data-theme-name="dark">Dark</button>
-      <button class="btn-theme" data-theme-name="midnight">Midnight</button>
-      <button class="btn-theme" data-theme-name="amoled">Amoled</button>
-    </div>
-  </div>
-</div>
+
+
 
 <script>
-  
   document.getElementById('noticeClose').addEventListener('click', function () {
     document.getElementById('notice-backdrop').style.display = 'none';
   });
 
-  
   function colourValues() {
     document.querySelectorAll('.data-val').forEach(function (el) {
       var t = el.textContent.trim().toLowerCase();
       el.classList.remove('val-unknown', 'val-error', 'val-true', 'val-false');
-      if (t === 'unknown') el.classList.add('val-unknown');
-      else if (t === 'error') el.classList.add('val-error');
-      else if (t === 'true')  el.classList.add('val-true');
-      else if (t === 'false') el.classList.add('val-false');
+      if (t === 'unknown')     el.classList.add('val-unknown');
+      else if (t === 'error')  el.classList.add('val-error');
+      else if (t === 'true')   el.classList.add('val-true');
+      else if (t === 'false')  el.classList.add('val-false');
     });
   }
   colourValues();
 
-  
   document.querySelectorAll('.section-item').forEach(function (item) {
     item.querySelector('.section-bar').addEventListener('click', function () {
       var isOpen = item.classList.contains('open');
@@ -1066,20 +1269,82 @@
     });
   });
 
-  
-  var toggle      = document.getElementById('menuToggle');
-  var menu        = document.getElementById('sideMenu');
-  var backdrop    = document.getElementById('backdrop');
-  var menuClose   = document.getElementById('menuClose');
+  var toggle         = document.getElementById('menuToggle');
+  var menu           = document.getElementById('sideMenu');
+  var backdrop       = document.getElementById('backdrop');
+  var menuClose      = document.getElementById('menuClose');
+  var menuBack       = document.getElementById('menuBack');
+  var menuMain       = document.getElementById('menuMain');
+  var menuPanelTitle = document.getElementById('menuPanelTitle');
+  var currentPanel   = null;
 
-  function openMenu()  { menu.classList.add('open');    backdrop.classList.add('open'); }
-  function closeMenu() { menu.classList.remove('open'); backdrop.classList.remove('open'); }
+  var panelTitles = {
+    panelDesign:    'Design',
+    panelTheme:     'Theme',
+    panelIconStyle: 'Icon style',
+    panelSize:      'Size',
+    panelLanguage:  'Language',
+    panelTracking:  'Tracking',
+    panelExport:    'Export'
+  };
+
+  var panelStack = [];
+
+  function openMenu() { menu.classList.add('open'); backdrop.classList.add('open'); }
+  function closeMenu() {
+    menu.classList.remove('open');
+    backdrop.classList.remove('open');
+    showMain();
+  }
+
+  function showMain() {
+    if (currentPanel) { document.getElementById(currentPanel).style.display = 'none'; }
+    panelStack.forEach(function (p) { document.getElementById(p).style.display = 'none'; });
+    panelStack = [];
+    currentPanel = null;
+    menuMain.style.display = 'flex';
+    menuBack.style.display = 'none';
+    menuPanelTitle.innerHTML = '';
+  }
+
+  function showPanel(panelId) {
+    if (currentPanel) {
+      document.getElementById(currentPanel).style.display = 'none';
+      panelStack.push(currentPanel);
+    } else {
+      menuMain.style.display = 'none';
+    }
+    currentPanel = panelId;
+    document.getElementById(panelId).style.display = 'flex';
+    menuBack.style.display = 'flex';
+    menuPanelTitle.innerHTML = '<span class="menu-panel-title">' + (panelTitles[panelId] || '') + '</span>';
+  }
+
+  function goBack() {
+    if (currentPanel) { document.getElementById(currentPanel).style.display = 'none'; }
+    if (panelStack.length > 0) {
+      currentPanel = panelStack.pop();
+      document.getElementById(currentPanel).style.display = 'flex';
+      menuBack.style.display = panelStack.length > 0 ? 'flex' : 'flex';
+      menuPanelTitle.innerHTML = '<span class="menu-panel-title">' + (panelTitles[currentPanel] || '') + '</span>';
+    } else {
+      currentPanel = null;
+      menuMain.style.display = 'flex';
+      menuBack.style.display = 'none';
+      menuPanelTitle.innerHTML = '';
+    }
+  }
 
   toggle.addEventListener('click', openMenu);
   menuClose.addEventListener('click', closeMenu);
+  menuBack.addEventListener('click', goBack);
   backdrop.addEventListener('click', closeMenu);
 
-  
+  document.addEventListener('click', function (e) {
+    var opt = e.target.closest('.menu-option[data-panel]');
+    if (opt) { showPanel(opt.dataset.panel); }
+  });
+
   function makePopup(backdropId, closeId) {
     var bd = document.getElementById(backdropId);
     var cl = document.getElementById(closeId);
@@ -1090,29 +1355,11 @@
     return { open: open, close: close };
   }
 
-  var menuPopup     = makePopup('menuPopupBackdrop',     'menuPopupClose');
-  var reportPopup   = makePopup('reportPopupBackdrop',   'reportPopupClose');
-  var themePopup    = makePopup('themePopupBackdrop',    'themePopupClose');
-  var langPopup     = makePopup('langPopupBackdrop',     'langPopupClose');
-  var trackingPopup = makePopup('trackingPopupBackdrop', 'trackingPopupClose');
-  var exportPopup   = makePopup('exportPopupBackdrop',   'exportPopupClose');
-
-  var menuPopupTitle = document.getElementById('menuPopupTitle');
-
-  document.querySelectorAll('.menu-option').forEach(function (option) {
-    option.addEventListener('click', function () {
-      var label = this.dataset.label;
-      if      (label === 'Theme')    { themePopup.open(); }
-      else if (label === 'Language') { langPopup.open(); }
-      else if (label === 'Tracking') { trackingPopup.open(); }
-      else if (label === 'Export')   { exportPopup.open(); }
-      else { menuPopupTitle.textContent = label; menuPopup.open(); }
-    });
-  });
+  var menuPopup   = makePopup('menuPopupBackdrop',   'menuPopupClose');
+  var reportPopup = makePopup('reportPopupBackdrop', 'reportPopupClose');
 
   document.getElementById('reportToggle').addEventListener('click', reportPopup.open);
 
-  
   var btnSendReport = document.getElementById('btnSendReport');
   btnSendReport.addEventListener('click', function () {
     btnSendReport.disabled = true;
@@ -1124,7 +1371,6 @@
     }, 2000);
   });
 
-  
   var reportTypeTrigger  = document.getElementById('reportTypeTrigger');
   var reportTypeDropdown = document.getElementById('reportTypeDropdown');
   var reportTypeValue    = document.getElementById('reportTypeValue');
@@ -1151,19 +1397,46 @@
     }
   });
 
-  
-  document.querySelectorAll('.btn-theme').forEach(function (btn) {
+  document.querySelectorAll('.btn-theme[data-theme-name]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      document.querySelectorAll('.btn-theme').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.btn-theme[data-theme-name]').forEach(function (b) { b.classList.remove('active'); });
       this.classList.add('active');
       var chosen = this.dataset.themeName;
       if (chosen === 'default') document.documentElement.removeAttribute('data-theme');
       else document.documentElement.setAttribute('data-theme', chosen);
-      themePopup.close();
     });
   });
 
-  
+  document.querySelectorAll('.btn-theme[data-icon-style]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.btn-theme[data-icon-style]').forEach(function (b) { b.classList.remove('active'); });
+      this.classList.add('active');
+    });
+  });
+
+  var sizeVars = {
+    small:  { gap: '10px', navH: '56px', font: '14px' },
+    medium: { gap: '16px', navH: '62px', font: '14px' },
+    large:  { gap: '22px', navH: '70px', font: '15px' }
+  };
+
+  function applySize(size) {
+    var v = sizeVars[size] || sizeVars.small;
+    var root = document.documentElement.style;
+    root.setProperty('--gap', v.gap);
+    root.setProperty('--nav-height', v.navH);
+    document.body.style.fontSize = v.font;
+    document.body.style.paddingTop = 'calc(' + v.navH + ' + ' + v.gap + ' * 2)';
+  }
+
+  document.querySelectorAll('.btn-theme[data-size]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.btn-theme[data-size]').forEach(function (b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      applySize(this.dataset.size);
+    });
+  });
+
   var currentLang = 'en';
   var originalTexts = new Map();
   var translationCache = {};
@@ -1196,7 +1469,7 @@
       langTranslateStatus.innerHTML = '';
       return;
     }
-    langTranslateStatus.innerHTML = '<p class="translate-loading">Translating\u2026</p>';
+    langTranslateStatus.innerHTML = '<p class="translate-loading">Translating…</p>';
     translationCache[lang] = {};
     var unique = [], seen = {};
     els.forEach(function (el) { var t = originalTexts.get(el); if (t && !seen[t]) { seen[t] = true; unique.push(t); } });
@@ -1222,7 +1495,7 @@
       els.forEach(function (el) { var t = translationCache[lang][originalTexts.get(el)]; if (t) el.textContent = t; });
       langTranslateStatus.innerHTML = '';
     } catch(e) {
-      langTranslateStatus.innerHTML = '<p class="translate-loading">Translation failed \u2014 check your connection.</p>';
+      langTranslateStatus.innerHTML = '<p class="translate-loading">Translation failed — check your connection.</p>';
       setTimeout(function () { langTranslateStatus.innerHTML = ''; }, 4000);
     }
   }
@@ -1234,14 +1507,21 @@
       currentLang = this.dataset.lang;
       document.querySelectorAll('.btn-lang').forEach(function (b) { b.classList.remove('active'); });
       this.classList.add('active');
-      langPopup.close();
       translatePage(currentLang);
     });
   });
 
-  document.querySelectorAll('.btn-export').forEach(function (btn) {
-    btn.addEventListener('click', function () { exportPopup.close(); });
-  });
+  (function () {
+    var grid = document.getElementById('postingHeatmap');
+    if (!grid) return;
+    for (var row = 0; row < 7; row++) {
+      for (var col = 0; col < 24; col++) {
+        var cell = document.createElement('div');
+        cell.className = 'heatmap-cell';
+        grid.appendChild(cell);
+      }
+    }
+  })();
 </script>
 </body>
 </html>
