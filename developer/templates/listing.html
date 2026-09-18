@@ -222,17 +222,6 @@
   #notice-popup { width: 100%; max-width: 420px; background: var(--surface); border: 1px solid var(--surface-2); border-radius: var(--radius); padding: var(--gap); display: flex; flex-direction: column; gap: var(--gap); }
   #notice-popup .popup-title { font-size: 15px; font-weight: 700; }
 
-  .heatmap-container { background: var(--surface); border-radius: var(--radius); padding: var(--gap); display: flex; flex-direction: column; gap: 6px; }
-  .heatmap-wrap { display: flex; gap: 4px; width: 100%; min-width: 0; }
-  .heatmap-days { display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; }
-  .heatmap-day-spacer { height: 14px; }
-  .heatmap-day { font-size: 9px; color: var(--text-muted); height: 14px; display: flex; align-items: center; white-space: nowrap; }
-  .heatmap-grid-wrap { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; overflow-x: auto; }
-  .heatmap-hours { display: grid; grid-template-columns: repeat(24, 1fr); gap: 3px; }
-  .heatmap-hour { font-size: 8px; color: var(--text-muted); text-align: center; height: 14px; display: flex; align-items: center; justify-content: center; }
-  .heatmap-grid { display: grid; grid-template-columns: repeat(24, 1fr); grid-template-rows: repeat(7, 1fr); gap: 3px; }
-  .heatmap-cell { aspect-ratio: 1; background: var(--surface-2); border-radius: 3px; min-width: 0; }
-
   .list-popup { max-width: 480px; height: 100%; display: flex; flex-direction: column; }
   .list-popup-bar { display: flex; align-items: center; gap: var(--gap); position: relative; }
   .list-popup-bar .custom-select-dropdown { left: 0; min-width: unset; }
@@ -264,6 +253,10 @@
     .overview-square .stat-label { font-size: 8px; }
   }
   @media (max-width: 400px) { :root { --gap: 6px; } }
+
+  .heatmap-container { background: var(--surface); border-radius: var(--radius); padding: var(--gap); }
+  .heatmap-container .heatmap-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: block; }
+  #heatmapSvg { width: 100%; display: block; }
 </style>
 </head>
 <body>
@@ -594,25 +587,8 @@
         <div class="data-row"><span class="data-key">Top Regions</span><span class="data-val">Unknown</span></div>
         <div class="data-row"><span class="data-key">Top Languages</span><span class="data-val">Unknown</span></div>
         <div class="heatmap-container">
-          <span class="data-key" style="margin-bottom:6px;">Posting Heatmap</span>
-          <div class="heatmap-wrap">
-            <div class="heatmap-days">
-              <div class="heatmap-day-spacer"></div>
-              <div class="heatmap-day">Mon</div>
-              <div class="heatmap-day">Tue</div>
-              <div class="heatmap-day">Wed</div>
-              <div class="heatmap-day">Thu</div>
-              <div class="heatmap-day">Fri</div>
-              <div class="heatmap-day">Sat</div>
-              <div class="heatmap-day">Sun</div>
-            </div>
-            <div class="heatmap-grid-wrap">
-              <div class="heatmap-hours">
-                <div class="heatmap-hour">00</div><div class="heatmap-hour">01</div><div class="heatmap-hour">02</div><div class="heatmap-hour">03</div><div class="heatmap-hour">04</div><div class="heatmap-hour">05</div><div class="heatmap-hour">06</div><div class="heatmap-hour">07</div><div class="heatmap-hour">08</div><div class="heatmap-hour">09</div><div class="heatmap-hour">10</div><div class="heatmap-hour">11</div><div class="heatmap-hour">12</div><div class="heatmap-hour">13</div><div class="heatmap-hour">14</div><div class="heatmap-hour">15</div><div class="heatmap-hour">16</div><div class="heatmap-hour">17</div><div class="heatmap-hour">18</div><div class="heatmap-hour">19</div><div class="heatmap-hour">20</div><div class="heatmap-hour">21</div><div class="heatmap-hour">22</div><div class="heatmap-hour">23</div>
-              </div>
-              <div class="heatmap-grid" id="postingHeatmap"></div>
-            </div>
-          </div>
+          <span class="heatmap-title">Posting Heatmap</span>
+          <svg id="heatmapSvg"></svg>
         </div>
         <span class="data-group-label">Top Performing Posts</span>
         <div class="data-row"><span class="data-key">By Views</span><span class="data-val">Unknown</span></div>
@@ -1195,16 +1171,93 @@
   });
 
   (function () {
-    var grid = document.getElementById('postingHeatmap');
-    if (!grid) return;
-    for (var row = 0; row < 7; row++) {
-      for (var col = 0; col < 24; col++) {
-        var cell = document.createElement('div');
-        cell.className = 'heatmap-cell';
-        grid.appendChild(cell);
+    var days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    var hours = [];
+    for (var i = 0; i < 24; i++) hours.push(i < 10 ? '0' + i : '' + i);
+
+    var CELL      = 18;
+    var GAP       = 4;
+    var DAY_W     = 72;
+    var HOUR_H    = 18;
+    var RADIUS    = 4;
+    var FONT_DAY  = 11;
+    var FONT_HOUR = 10;
+
+    var totalW = DAY_W + GAP + (CELL * 24) + (GAP * 23);
+    var totalH = HOUR_H + GAP + (CELL * 7) + (GAP * 6);
+
+    var svg = document.getElementById('heatmapSvg');
+    if (!svg) return;
+
+    svg.setAttribute('viewBox', '0 0 ' + totalW + ' ' + totalH);
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+    var ns = 'http://www.w3.org/2000/svg';
+
+    function el(tag, attrs) {
+      var e = document.createElementNS(ns, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    function getVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function draw() {
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+      var colMuted  = getVar('--text-muted');
+      var colCell   = getVar('--surface-2');
+
+      
+      for (var h = 0; h < 24; h++) {
+        var x = DAY_W + GAP + h * (CELL + GAP) + CELL / 2;
+        var t = el('text', {
+          x: x, y: HOUR_H - 4,
+          'text-anchor': 'middle',
+          'font-size': FONT_HOUR,
+          'font-family': 'Inter, system-ui, sans-serif',
+          fill: colMuted
+        });
+        t.textContent = hours[h];
+        svg.appendChild(t);
+      }
+
+      
+      for (var d = 0; d < 7; d++) {
+        var y = HOUR_H + GAP + d * (CELL + GAP);
+
+        
+        var dt = el('text', {
+          x: 0, y: y + CELL / 2 + FONT_DAY / 3,
+          'font-size': FONT_DAY,
+          'font-family': 'Inter, system-ui, sans-serif',
+          fill: colMuted
+        });
+        dt.textContent = days[d];
+        svg.appendChild(dt);
+
+        
+        for (var h2 = 0; h2 < 24; h2++) {
+          var cx = DAY_W + GAP + h2 * (CELL + GAP);
+          var rect = el('rect', {
+            x: cx, y: y,
+            width: CELL, height: CELL,
+            rx: RADIUS, ry: RADIUS,
+            fill: colCell
+          });
+          svg.appendChild(rect);
+        }
       }
     }
+
+    draw();
+
+    var observer = new MutationObserver(draw);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   })();
+
 </script>
 </body>
 </html>
