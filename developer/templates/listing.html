@@ -219,10 +219,17 @@
     gap: 8px; text-align: left; border-radius: var(--radius);
   }
   .btn-theme:hover { background: transparent; }
-  .btn-theme .theme-radio {
+  .theme-radio {
     width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
     border: 2px solid var(--text-muted); position: relative;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease; display: inline-block;
+  }
+  .theme-radio.active { border-color: var(--accent); }
+  .theme-radio.active::after {
+    content: ''; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
   }
   .btn-theme.active .theme-radio { border-color: var(--accent); }
   .btn-theme.active .theme-radio::after {
@@ -235,28 +242,8 @@
   img { filter: var(--icon-filter, none); }
   .overview-square.avatar { filter: none !important; }
   .overview-square.avatar .avatar-fallback { filter: var(--icon-filter, none); }
-  .btn-report img { filter: invert(42%) sepia(80%) saturate(800%) hue-rotate(330deg) brightness(105%) contrast(95%) !important; }
-  [data-theme] .btn-report img { filter: invert(42%) sepia(80%) saturate(800%) hue-rotate(330deg) brightness(105%) contrast(95%) !important; }
-
-  .blacklist-panel { background: var(--surface-2); border-radius: var(--radius); padding: var(--gap); display: flex; flex-direction: column; gap: var(--gap); }
-  .blacklist-header { display: flex; align-items: center; gap: 8px; }
-  .blacklist-header img { width: 18px; height: 18px; object-fit: contain; flex-shrink: 0; }
-  .blacklist-title-group { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .blacklist-title-group .title { font-size: 13px; font-weight: 600; color: var(--text); }
-  .blacklist-title-group .subtitle { font-size: 10px; color: var(--text-muted); }
-  .blacklist-description { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
-  .btn-blacklist { width: 100%; padding: 9px var(--gap); background: var(--accent-dim); border: none; border-radius: var(--radius); color: var(--text); font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s ease; }
-  .btn-blacklist:hover { opacity: 0.8; }
-
-  .body-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--gap); background: var(--surface-2); border-radius: var(--radius); padding: 10px var(--gap); margin-top: auto; }
-  .footer-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .footer-meta .db-id { font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .footer-meta .db-ranking { font-size: 10px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .btn-report { flex-shrink: 0; display: flex; align-items: center; gap: 5px; padding: 7px 12px; background: transparent; border: 1px solid var(--danger); border-radius: var(--radius); color: var(--danger); font-family: var(--font); font-size: 12px; cursor: pointer; transition: opacity 0.15s ease; }
-  .btn-report img { width: 14px; height: 14px; object-fit: contain; flex-shrink: 0; filter: invert(58%) sepia(40%) saturate(700%) hue-rotate(314deg) brightness(105%) contrast(90%); }
-  .btn-report:hover { opacity: 0.75; }
-
-  .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 110; }
+[data-theme]
+.backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 110; }
   .backdrop.open { opacity: 1; pointer-events: all; }
 
   .side-menu { position: fixed; top: var(--gap); right: var(--gap); bottom: var(--gap); width: 260px; background: var(--surface); border: 1px solid var(--surface-2); border-radius: var(--radius); padding: var(--gap); display: flex; flex-direction: column; gap: var(--gap); transform: translateX(calc(100% + var(--gap))); transition: transform 0.3s ease; z-index: 120; }
@@ -368,9 +355,7 @@
     .nav-identity .username { font-size: 11px; }
     .nav-icon { width: 32px; height: 32px; }
     .nav-icon img { width: 16px; height: 16px; }
-    .btn-report span { display: none; }
-    .btn-report { padding: 7px 9px; }
-    .side-menu { width: calc(100% - var(--gap) * 2); }
+.side-menu { width: calc(100% - var(--gap) * 2); }
     .overview-square .stat-value { font-size: 12px; }
     .overview-square .stat-label { font-size: 8px; }
   }
@@ -486,22 +471,6 @@
   [data-theme="blossom"] .data-row,
   [data-theme="clay"] .data-row,
   [data-theme="sunrise"] .data-row,
-  [data-theme="aura"] .blacklist-panel,
-  [data-theme="azure"] .blacklist-panel,
-  [data-theme="forest"] .blacklist-panel,
-  [data-theme="volcano"] .blacklist-panel,
-  [data-theme="blooded"] .blacklist-panel,
-  [data-theme="blossom"] .blacklist-panel,
-  [data-theme="clay"] .blacklist-panel,
-  [data-theme="sunrise"] .blacklist-panel,
-  [data-theme="aura"] .body-footer,
-  [data-theme="azure"] .body-footer,
-  [data-theme="forest"] .body-footer,
-  [data-theme="volcano"] .body-footer,
-  [data-theme="blooded"] .body-footer,
-  [data-theme="blossom"] .body-footer,
-  [data-theme="clay"] .body-footer,
-  [data-theme="sunrise"] .body-footer,
   [data-theme="aura"] .overview-bio,
   [data-theme="azure"] .overview-bio,
   [data-theme="forest"] .overview-bio,
@@ -557,6 +526,89 @@
   [data-theme="clay"] .heatmap-container,
   [data-theme="sunrise"] .heatmap-container { background: var(--glass-surface); }
 
+
+  .menu-title-text { font-size: 14px; font-weight: 700; color: var(--text); }
+  .menu-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .menu-header-title { flex: 1; min-width: 0; }
+
+  .btn-menu-action {
+    width: 100%; padding: 9px var(--gap); background: var(--accent-dim); border: none;
+    border-radius: var(--radius); color: var(--text); font-family: var(--font);
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity 0.15s ease; text-align: center;
+  }
+  .btn-menu-action:hover { opacity: 0.8; }
+  .btn-menu-action:disabled { opacity: 0.5; cursor: default; }
+  .btn-menu-danger { background: var(--danger); }
+
+  .menu-body-text { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+  .menu-field { display: flex; flex-direction: column; gap: 4px; }
+  .menu-field-label { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+  .menu-field-input {
+    width: 100%; background: var(--surface-2); border: 1px solid var(--surface-2);
+    border-radius: var(--radius); padding: 8px var(--gap);
+    color: var(--text); font-family: var(--font); font-size: 12px;
+    outline: none; transition: border-color 0.15s ease;
+  }
+  .menu-field-input:focus { border-color: var(--accent-dim); }
+  .menu-field-input::placeholder { color: var(--text-muted); }
+  .menu-field-textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+
+  .debug-item { display: flex; flex-direction: column; gap: 3px; }
+  .debug-key { font-size: 12px; font-weight: 700; color: var(--text); }
+  .debug-val { font-size: 11px; color: var(--text-muted); }
+
+  .effect-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 4px; cursor: pointer; border-radius: var(--radius);
+  }
+  .effect-row:hover { background: transparent; }
+  .effect-label { font-size: 12px; font-weight: 500; color: var(--text); }
+
+  .iface-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--gap); padding: 4px 0; position: relative;
+  }
+  .iface-label { font-size: 12px; font-weight: 500; color: var(--text); flex-shrink: 0; }
+  .iface-input {
+    width: 60px; background: var(--surface-2); border: 1px solid var(--surface-2);
+    border-radius: var(--radius); padding: 6px 8px; color: var(--text);
+    font-family: var(--font); font-size: 12px; text-align: center; outline: none;
+  }
+  .iface-input:focus { border-color: var(--accent-dim); }
+  .iface-chevron {
+    display: flex; align-items: center; gap: 6px; cursor: pointer;
+    background: var(--surface-2); border-radius: var(--radius); padding: 6px 10px;
+    font-size: 12px; color: var(--text); user-select: none;
+  }
+  .iface-chevron img { width: 10px; height: 10px; object-fit: contain; transition: transform 0.2s; }
+  .iface-dropdown {
+    position: absolute; top: calc(100% + 4px); right: 0;
+    background: var(--surface-2); border: 1px solid var(--glass-border);
+    border-radius: var(--radius); padding: 4px;
+    z-index: 50; flex-direction: column; gap: 2px; min-width: 160px;
+  }
+  .iface-dropdown-option {
+    padding: 8px 10px; border-radius: calc(var(--radius) - 2px);
+    font-size: 12px; color: var(--text); cursor: pointer;
+  }
+  .iface-dropdown-option:hover { background: var(--surface); }
+
+  .effect-semi .body-container,
+  .effect-semi nav,
+  .effect-semi .side-menu { background: rgba(0,0,0,0.3); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+
+  .effect-glass .body-container,
+  .effect-glass nav,
+  .effect-glass .side-menu,
+  .effect-glass .section-bar,
+  .effect-glass .data-row {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-color: var(--glass-border) !important;
+  }
+
 </style>
 </head>
 <body>
@@ -565,7 +617,7 @@
   <div id="notice-popup">
     <div class="popup-header">
       <span class="popup-title">Notice</span>
-      <div class="popup-close" id="noticeClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
+      <div class="popup-close" id="noticeClose"><img src="../../assets/media/icons/outlined/close.png" alt="Close"></div>
     </div>
     <p class="popup-body">You are viewing this page on a front-end only hosting platform. Server-sided and back-end features will not work or may not be included.</p>
   </div>
@@ -576,7 +628,7 @@
     <span class="nickname">$Nickname</span>
     <span class="username">$Username</span>
   </div>
-  <div class="nav-icon" id="menuToggle"><img src="../../assets/media/icons/menu.png" alt="Menu"></div>
+  <div class="nav-icon" id="menuToggle"><img src="../../assets/media/icons/outlined/menu.png" alt="Menu"></div>
 </nav>
 
 <div class="body-container">
@@ -584,8 +636,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/overview.png" alt=""><span data-translate="Profile overview">Profile overview</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/overview.png" alt=""><span data-translate="Profile overview">Profile overview</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body">
         <div style="display:flex;flex-direction:column;gap:var(--gap);">
@@ -603,7 +655,7 @@
               <span class="ov-username">$Username</span>
             </div>
             <div class="overview-header-indicators">
-              <div class="overview-indicator"><img src="../../assets/media/icons/device-indicator.png" alt=""></div>
+              <div class="overview-indicator"><img src="../../assets/media/icons/outlined/device.png" alt=""></div>
               <div class="overview-indicator text-indicator">$Region</div>
             </div>
           </div>
@@ -626,8 +678,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/device.png" alt=""><span data-translate="Device information">Device information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/device.png" alt=""><span data-translate="Device information">Device information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Manufacturer</span><span class="data-val">Unknown</span></div>
@@ -640,8 +692,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/client.png" alt=""><span data-translate="Client information">Client information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/client.png" alt=""><span data-translate="Client information">Client information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Application Version</span><span class="data-val">Unknown</span></div>
@@ -653,8 +705,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/domain.png" alt=""><span data-translate="Domain information">Domain information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/domain.png" alt=""><span data-translate="Domain information">Domain information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Email Address Domain</span><span class="data-val">Unknown</span></div>
@@ -664,8 +716,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/authorisation.png" alt=""><span data-translate="Authorisation information">Authorisation information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/authorisation.png" alt=""><span data-translate="Authorisation information">Authorisation information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Email Address Status</span><span class="data-val">Unknown</span></div>
@@ -680,8 +732,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/account.png" alt=""><span data-translate="Account information">Account information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/account.png" alt=""><span data-translate="Account information">Account information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Account Creation Timestamp</span><span class="data-val">Unknown</span></div>
@@ -707,8 +759,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/profile.png" alt=""><span data-translate="Profile information">Profile information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/profile.png" alt=""><span data-translate="Profile information">Profile information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Nickname</span><span class="data-val">Unknown</span></div>
@@ -728,8 +780,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/statistics.png" alt=""><span data-translate="General statistics">General statistics</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/statistics.png" alt=""><span data-translate="General statistics">General statistics</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Followers</span><span class="data-val">Unknown</span></div>
@@ -746,8 +798,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/settings.png" alt=""><span data-translate="Settings information">Settings information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/settings.png" alt=""><span data-translate="Settings information">Settings information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Stitch</span><span class="data-val">Unknown</span></div>
@@ -760,8 +812,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/payments.png" alt=""><span data-translate="Payments information">Payments information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/payments.png" alt=""><span data-translate="Payments information">Payments information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Linked Payment Methods</span><span class="data-val">Unknown</span></div>
@@ -774,8 +826,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/miscellaneous.png" alt=""><span data-translate="Miscellaneous information">Miscellaneous information</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/miscellaneous.png" alt=""><span data-translate="Miscellaneous information">Miscellaneous information</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
         <div class="data-row"><span class="data-key">Live Room ID</span><span class="data-val">Unknown</span></div>
@@ -788,8 +840,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/summary.png" alt=""><span data-translate="Analytics summary">Analytics summary</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/summary.png" alt=""><span data-translate="Analytics summary">Analytics summary</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
 <div class="inner-body">
@@ -820,8 +872,8 @@
 
     <div class="section-item">
       <div class="section-bar">
-        <div class="section-bar-left"><img src="../../assets/media/icons/analytics.png" alt=""><span data-translate="Advanced analytics">Advanced analytics</span></div>
-        <img class="section-bar-chevron" src="../../assets/media/icons/down.png" alt="">
+        <div class="section-bar-left"><img src="../../assets/media/icons/outlined/advanced.png" alt=""><span data-translate="Advanced analytics">Advanced analytics</span></div>
+        <img class="section-bar-chevron" src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="section-body"><div class="data-rows">
 <div class="inner-body">
@@ -939,76 +991,79 @@
     </div>
 
   </div>
-
-  <div class="blacklist-panel">
-    <div class="blacklist-header">
-      <img src="../../assets/media/icons/blacklist.png" alt="">
-      <div class="blacklist-title-group">
-        <span class="title" data-translate="Blacklist">Blacklist</span>
-        <span class="subtitle" data-translate="Remove this information from UtilityTok entirely">Remove this information from UtilityTok entirely</span>
-      </div>
-    </div>
-    <p class="blacklist-description" data-translate="While we believe information should be free and public always, privacy also matters. You can pay a small fee to have this information completely removed from our database and listings.">While we believe information should be free and public always, privacy also matters. You can pay a small fee to have this information completely removed from our database and listings.</p>
-    <button class="btn-blacklist" data-translate="Blacklist">Blacklist</button>
-  </div>
-
-  <div class="body-footer">
-    <div class="footer-meta">
-      <span class="db-id">$DatabaseID</span>
-      <span class="db-ranking">$DatabaseRanking</span>
-    </div>
-    <button class="btn-report" id="reportToggle">
-      <img src="../../assets/media/icons/report.png" alt="Report">
-      <span data-translate="Report">Report</span>
-    </button>
-  </div>
 </div>
 
 <div class="backdrop" id="backdrop"></div>
 
 <div class="side-menu" id="sideMenu">
   <div class="menu-header">
-    <div class="menu-back" id="menuBack" style="display:none;"><img src="../../assets/media/icons/back.png" alt="Back"></div>
-    <div style="flex:1;min-width:0;" id="menuPanelTitle"></div>
-    <div class="menu-close" id="menuClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
+    <div class="menu-back" id="menuBack" style="display:none;"><img src="../../assets/media/icons/outlined/back.png" alt="Back"></div>
+    <div class="menu-header-title" id="menuPanelTitle"><span class="menu-title-text">Menu</span></div>
+    <div class="menu-close" id="menuClose"><img src="../../assets/media/icons/outlined/close.png" alt="Close"></div>
   </div>
+
   <div id="menuMain" class="menu-panel">
     <div class="menu-options">
-      <div class="menu-option" data-panel="panelDesign">
-        <div class="menu-option-left"><img src="../../assets/media/icons/theme.png" alt=""><span>Customisation</span></div>
-        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      <div class="menu-option" data-panel="panelCustomisation">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/customisation.png" alt=""><span>Customisation</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
       </div>
       <div class="menu-option" data-panel="panelLanguage">
-        <div class="menu-option-left"><img src="../../assets/media/icons/language.png" alt=""><span data-translate="Language">Language</span></div>
-        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/language.png" alt=""><span>Language</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
       </div>
       <div class="menu-option" data-panel="panelTracking">
-        <div class="menu-option-left"><img src="../../assets/media/icons/tracking.png" alt=""><span data-translate="Tracking">Tracking</span></div>
-        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/tracking.png" alt=""><span>Tracking</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
       </div>
       <div class="menu-option" data-panel="panelExport">
-        <div class="menu-option-left"><img src="../../assets/media/icons/export.png" alt=""><span data-translate="Export">Export</span></div>
-        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/export.png" alt=""><span>Export</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelBlacklist">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/blacklist.png" alt=""><span>Blacklist</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelReport">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/report.png" alt=""><span>Report</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelDebug">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/debug.png" alt=""><span>Debug Information</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
       </div>
     </div>
-
   </div>
-  <div id="panelDesign" class="menu-panel" style="display:none;">
+
+  <div id="panelCustomisation" class="menu-panel" style="display:none;">
     <div class="menu-options">
       <div class="menu-option" data-panel="panelTheme">
-        <div class="menu-option-left"><img src="../../assets/media/icons/theme.png" alt=""><span>Theme</span></div>
-        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/theme.png" alt=""><span>Theme</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelAccentColour">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/accent.png" alt=""><span>Accent Colour</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
       </div>
       <div class="menu-option" data-panel="panelIconStyle">
-        <div class="menu-option-left"><img src="../../assets/media/icons/style.png" alt=""><span>Icon style</span></div>
-        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/icon.png" alt=""><span>Icon Style</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
       </div>
-      <div class="menu-option" data-panel="panelSize">
-        <div class="menu-option-left"><img src="../../assets/media/icons/size.png" alt=""><span>Size</span></div>
-        <img class="menu-option-configure" src="../../assets/media/icons/configure.png" alt="">
+      <div class="menu-option" data-panel="panelInterfaceStyle">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/interface.png" alt=""><span>Interface Style</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelFont">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/font.png" alt=""><span>Font</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
+      </div>
+      <div class="menu-option" data-panel="panelEffects">
+        <div class="menu-option-left"><img src="../../assets/media/icons/outlined/effects.png" alt=""><span>Effects</span></div>
+        <img class="menu-option-configure" src="../../assets/media/icons/outlined/forward.png" alt="">
       </div>
     </div>
   </div>
+
   <div id="panelTheme" class="menu-panel" style="display:none;">
     <span class="theme-group-label">Default</span>
     <button class="btn-theme" data-theme-name="system"><span>System</span><span class="theme-radio"></span></button>
@@ -1031,98 +1086,142 @@
     <button class="btn-theme" data-theme-name="blossom"><span>Blossom</span><span class="theme-radio"></span></button>
     <button class="btn-theme" data-theme-name="sunrise"><span>Sunrise</span><span class="theme-radio"></span></button>
   </div>
+
+  <div id="panelAccentColour" class="menu-panel" style="display:none;">
+    <button class="btn-theme active" data-accent="default"><span>Default</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-accent="custom" id="btnAccentCustom"><span>Custom</span><span class="theme-radio"></span></button>
+  </div>
+
   <div id="panelIconStyle" class="menu-panel" style="display:none;">
-    <div class="theme-options">
-      <button class="btn-theme" data-icon-style="outlined-rounded">Outlined / rounded</button>
-      <button class="btn-theme active" data-icon-style="filled-rounded">Filled / rounded</button>
+    <button class="btn-theme active" data-icon-style="outlined"><span>Outlined</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-icon-style="filled"><span>Filled</span><span class="theme-radio"></span></button>
+  </div>
+
+  <div id="panelInterfaceStyle" class="menu-panel" style="display:none;">
+    <div class="iface-row">
+      <span class="iface-label">Corner Radius</span>
+      <input class="iface-input" type="number" id="cornerRadiusInput" min="0" max="30" value="10" placeholder="px">
+    </div>
+    <div class="iface-row" id="highlightingRow">
+      <span class="iface-label">Highlighting</span>
+      <div class="iface-chevron" id="highlightingChevron">
+        <span id="highlightingValue">Slightly Rounded</span>
+        <img src="../../assets/media/icons/outlined/down.png" alt="" id="highlightingArrow">
+      </div>
+      <div class="iface-dropdown" id="highlightingDropdown" style="display:none;">
+        <div class="iface-dropdown-option" data-value="slightly">Slightly Rounded</div>
+        <div class="iface-dropdown-option" data-value="fully">Fully Rounded</div>
+      </div>
     </div>
   </div>
-  <div id="panelSize" class="menu-panel" style="display:none;">
-    <div class="theme-options">
-      <button class="btn-theme active" data-size="small">Small</button>
-      <button class="btn-theme" data-size="medium">Medium</button>
-      <button class="btn-theme" data-size="large">Large</button>
+
+  <div id="panelFont" class="menu-panel" style="display:none;">
+    <button class="btn-theme active" data-font="default"><span>Default</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-font="custom" id="btnFontCustom"><span>Custom</span><span class="theme-radio"></span></button>
+    <input type="file" id="fontFileInput" accept=".ttf,.otf" style="display:none;">
+  </div>
+
+  <div id="panelEffects" class="menu-panel" style="display:none;">
+    <div class="effect-row" id="effectSemiRow">
+      <span class="effect-label">Semi-Transparency</span>
+      <span class="theme-radio" id="effectSemiRadio"></span>
+    </div>
+    <div class="effect-row" id="effectGlassRow">
+      <span class="effect-label">Liquid Glass</span>
+      <span class="theme-radio" id="effectGlassRadio"></span>
     </div>
   </div>
+
   <div id="panelLanguage" class="menu-panel" style="display:none;">
     <div id="langTranslateStatus"></div>
-    <div class="lang-options">
-      <button class="btn-lang active" data-lang="en">English</button>
-      <button class="btn-lang" data-lang="fr">French</button>
-      <button class="btn-lang" data-lang="de">German</button>
-      <button class="btn-lang" data-lang="es">Spanish</button>
-      <button class="btn-lang" data-lang="ru">Russian</button>
-      <button class="btn-lang" data-lang="pt">Portuguese</button>
-      <button class="btn-lang" data-lang="zh">Chinese</button>
-      <button class="btn-lang" data-lang="ja">Japanese</button>
-    </div>
+    <button class="btn-theme active" data-lang="en"><span>English</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-lang="fr"><span>French</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-lang="de"><span>German</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-lang="es"><span>Spanish</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-lang="ru"><span>Russian</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-lang="pt"><span>Portuguese</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-lang="zh"><span>Chinese</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-lang="ja"><span>Japanese</span><span class="theme-radio"></span></button>
   </div>
+
   <div id="panelTracking" class="menu-panel" style="display:none;">
-    <div class="tracking-option">
-      <span class="tracking-option-label" data-translate="Enable tracking">Enable tracking</span>
-      <label class="toggle">
-        <input type="checkbox" id="trackingToggle">
-        <span class="toggle-track"></span>
-      </label>
+    <div class="effect-row" id="trackingToggleRow" style="cursor:pointer;">
+      <span class="effect-label">Enable Tracking</span>
+      <span class="theme-radio" id="trackingRadio"></span>
     </div>
-    <button class="btn-check-logs" data-translate="Check logs">Check logs</button>
+    <button class="btn-menu-action">Check logs</button>
   </div>
+
   <div id="panelExport" class="menu-panel" style="display:none;">
-    <div class="export-options">
-      <button class="btn-export">Text</button>
-      <button class="btn-export">HTML</button>
-      <button class="btn-export">JSON</button>
-      <button class="btn-export">CSV</button>
-    </div>
+    <button class="btn-theme active" data-export-fmt="text"><span>Text</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-export-fmt="html"><span>HTML</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-export-fmt="json"><span>JSON</span><span class="theme-radio"></span></button>
+    <button class="btn-theme" data-export-fmt="csv"><span>CSV</span><span class="theme-radio"></span></button>
+    <button class="btn-menu-action" id="btnExport">Export</button>
   </div>
-</div>
 
-<div class="popup-backdrop" id="menuPopupBackdrop">
-  <div class="popup">
-    <div class="popup-header">
-      <span class="popup-title" id="menuPopupTitle"></span>
-      <div class="popup-close" id="menuPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
-    </div>
-    <p class="popup-body">This feature is currently unavailable, please try again later.</p>
+  <div id="panelBlacklist" class="menu-panel" style="display:none;">
+    <p class="menu-body-text">While we believe information should be free and public always, privacy also matters. You can pay a small fee to have this information completely removed from our database and listings.</p>
+    <button class="btn-menu-action btn-menu-danger">Blacklist</button>
   </div>
-</div>
 
-<div class="popup-backdrop" id="reportPopupBackdrop">
-  <div class="popup">
-    <div class="popup-header">
-      <span class="popup-title" data-translate="Report listing">Report listing</span>
-      <div class="popup-close" id="reportPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
+  <div id="panelReport" class="menu-panel" style="display:none;">
+    <div class="menu-field">
+      <label class="menu-field-label">Email address</label>
+      <input type="email" class="menu-field-input" placeholder="you@example.com">
     </div>
-    <div class="popup-fields">
-      <div class="field">
-        <label data-translate="Email address">Email address</label>
-        <input type="email" placeholder="you@example.com">
-      </div>
-      <div class="field">
-        <label data-translate="Report type">Report type</label>
-        <div class="custom-select" id="reportTypeSelect">
-          <div class="custom-select-trigger placeholder" id="reportTypeTrigger">
-            <span id="reportTypeValue">Select a type</span>
-            <img src="../../assets/media/icons/down.png" alt="">
-          </div>
-          <div class="custom-select-dropdown" id="reportTypeDropdown">
-            <div class="custom-select-option" data-value="Incorrect information">Incorrect information</div>
-            <div class="custom-select-option" data-value="Privacy violation">Privacy violation</div>
-            <div class="custom-select-option" data-value="Spam or abuse">Spam or abuse</div>
-            <div class="custom-select-option" data-value="Other">Other</div>
-          </div>
+    <div class="menu-field">
+      <label class="menu-field-label">Report type</label>
+      <div class="custom-select" id="menuReportTypeSelect">
+        <div class="custom-select-trigger placeholder" id="menuReportTypeTrigger">
+          <span id="menuReportTypeValue">Select a type</span>
+          <img src="../../assets/media/icons/outlined/down.png" alt="">
+        </div>
+        <div class="custom-select-dropdown" id="menuReportTypeDropdown">
+          <div class="custom-select-option" data-value="Incorrect information">Incorrect information</div>
+          <div class="custom-select-option" data-value="Privacy violation">Privacy violation</div>
+          <div class="custom-select-option" data-value="Spam or abuse">Spam or abuse</div>
+          <div class="custom-select-option" data-value="Other">Other</div>
         </div>
       </div>
-      <div class="field">
-        <label data-translate="Report reason">Report reason</label>
-        <input type="text" placeholder="Brief reason for this report">
-      </div>
-      <div class="field">
-        <label data-translate="Report notes">Report notes</label>
-        <textarea placeholder="Any additional details..."></textarea>
-      </div>
     </div>
-    <button class="btn-send" id="btnSendReport" data-translate="Send report">Send report</button>
+    <div class="menu-field">
+      <label class="menu-field-label">Report reason</label>
+      <input type="text" class="menu-field-input" placeholder="Brief reason">
+    </div>
+    <div class="menu-field">
+      <label class="menu-field-label">Report notes</label>
+      <textarea class="menu-field-input menu-field-textarea" placeholder="Additional details..."></textarea>
+    </div>
+    <button class="btn-menu-action btn-menu-danger" id="btnMenuSendReport">Send report</button>
+  </div>
+
+  <div id="panelDebug" class="menu-panel" style="display:none;">
+    <div class="debug-item">
+      <span class="debug-key">Database ID</span>
+      <span class="debug-val">$DatabaseID</span>
+    </div>
+    <div class="debug-item">
+      <span class="debug-key">Database Listing</span>
+      <span class="debug-val">$DatabaseListing</span>
+    </div>
+    <div class="debug-item">
+      <span class="debug-key">Listing Author</span>
+      <span class="debug-val">$ListingAuthor</span>
+    </div>
+  </div>
+</div>
+
+<div class="popup-backdrop" id="accentPickerBackdrop">
+  <div class="popup" style="max-width:320px;">
+    <div class="popup-header">
+      <span class="popup-title">Custom Accent Colour</span>
+      <div class="popup-close" id="accentPickerClose"><img src="../../assets/media/icons/outlined/close.png" alt="Close"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:var(--gap);align-items:center;">
+      <input type="color" id="accentColorPicker" value="#9b7fe8" style="width:100%;height:60px;border:none;border-radius:var(--radius);cursor:pointer;background:none;">
+      <button class="btn-menu-action" id="btnApplyAccent" style="width:100%;">Apply</button>
+    </div>
   </div>
 </div>
 
@@ -1130,13 +1229,13 @@
   <div class="popup list-popup">
     <div class="popup-header">
       <span class="popup-title">Followers list</span>
-      <div class="popup-close" id="followersPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
+      <div class="popup-close" id="followersPopupClose"><img src="../../assets/media/icons/outlined/close.png" alt="Close"></div>
     </div>
     <div class="list-popup-bar">
       <div class="custom-select" id="followersAmountSelect">
         <div class="custom-select-trigger placeholder" id="followersAmountTrigger">
           <span id="followersAmountValue">Amount to show...</span>
-          <img src="../../assets/media/icons/down.png" alt="">
+          <img src="../../assets/media/icons/outlined/down.png" alt="">
         </div>
         <div class="custom-select-dropdown" id="followersAmountDropdown">
           <div class="custom-select-option" data-value="All">All</div>
@@ -1158,13 +1257,13 @@
   <div class="popup list-popup">
     <div class="popup-header">
       <span class="popup-title">Following list</span>
-      <div class="popup-close" id="followingPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
+      <div class="popup-close" id="followingPopupClose"><img src="../../assets/media/icons/outlined/close.png" alt="Close"></div>
     </div>
     <div class="list-popup-bar">
       <div class="custom-select" id="followingAmountSelect">
         <div class="custom-select-trigger placeholder" id="followingAmountTrigger">
           <span id="followingAmountValue">Amount to show...</span>
-          <img src="../../assets/media/icons/down.png" alt="">
+          <img src="../../assets/media/icons/outlined/down.png" alt="">
         </div>
         <div class="custom-select-dropdown" id="followingAmountDropdown">
           <div class="custom-select-option" data-value="All">All</div>
@@ -1186,13 +1285,13 @@
   <div class="popup list-popup">
     <div class="popup-header">
       <span class="popup-title">Friends list</span>
-      <div class="popup-close" id="friendsPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
+      <div class="popup-close" id="friendsPopupClose"><img src="../../assets/media/icons/outlined/close.png" alt="Close"></div>
     </div>
     <div class="list-popup-bar">
       <div class="custom-select" id="friendsAmountSelect">
         <div class="custom-select-trigger placeholder" id="friendsAmountTrigger">
           <span id="friendsAmountValue">Amount to show...</span>
-          <img src="../../assets/media/icons/down.png" alt="">
+          <img src="../../assets/media/icons/outlined/down.png" alt="">
         </div>
         <div class="custom-select-dropdown" id="friendsAmountDropdown">
           <div class="custom-select-option" data-value="All">All</div>
@@ -1214,7 +1313,7 @@
   <div class="popup">
     <div class="popup-header">
       <span class="popup-title">Avatar quality</span>
-      <div class="popup-close" id="avatarQualityPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
+      <div class="popup-close" id="avatarQualityPopupClose"><img src="../../assets/media/icons/outlined/close.png" alt="Close"></div>
     </div>
     <div class="avatar-quality-grid">
       <button class="btn-quality">16 x 16</button>
@@ -1231,12 +1330,12 @@
   <div class="media-popup">
     <div class="popup-header">
       <span class="popup-title">Media</span>
-      <div class="popup-close" id="mediaPopupClose"><img src="../../assets/media/icons/close.png" alt="Close"></div>
+      <div class="popup-close" id="mediaPopupClose"><img src="../../assets/media/icons/outlined/close.png" alt="Close"></div>
     </div>
     <div class="custom-select" id="mediaTypeSelect">
       <div class="custom-select-trigger placeholder" id="mediaTypeTrigger">
         <span id="mediaTypeValue">Choose media type...</span>
-        <img src="../../assets/media/icons/down.png" alt="">
+        <img src="../../assets/media/icons/outlined/down.png" alt="">
       </div>
       <div class="custom-select-dropdown" id="mediaTypeDropdown">
         <div class="custom-select-option" data-value="Posts">Posts</div>
@@ -1275,7 +1374,7 @@
       var isOpen = item.classList.contains('open');
       item.classList.toggle('open', !isOpen);
       item.querySelector('.section-bar-chevron').src =
-        isOpen ? '../../assets/media/icons/down.png' : '../../assets/media/icons/up.png';
+        isOpen ? '../../assets/media/icons/outlined/down.png' : '../../assets/media/icons/outlined/up.png';
     });
   });
 
@@ -1290,8 +1389,19 @@
   var panelStack     = [];
 
   var panelTitles = {
-    panelDesign: 'Design', panelTheme: 'Theme', panelIconStyle: 'Icon style',
-    panelSize: 'Size', panelLanguage: 'Language', panelTracking: 'Tracking', panelExport: 'Export'
+    panelCustomisation: 'Customisation',
+    panelTheme: 'Theme',
+    panelAccentColour: 'Accent Colour',
+    panelIconStyle: 'Icon Style',
+    panelInterfaceStyle: 'Interface Style',
+    panelFont: 'Font',
+    panelEffects: 'Effects',
+    panelLanguage: 'Language',
+    panelTracking: 'Tracking',
+    panelExport: 'Export',
+    panelBlacklist: 'Blacklist',
+    panelReport: 'Report',
+    panelDebug: 'Debug Information'
   };
 
   function openMenu() { menu.classList.add('open'); backdrop.classList.add('open'); }
@@ -1301,7 +1411,9 @@
     if (currentPanel) document.getElementById(currentPanel).style.display = 'none';
     panelStack.forEach(function (p) { document.getElementById(p).style.display = 'none'; });
     panelStack = []; currentPanel = null;
-    menuMain.style.display = 'flex'; menuBack.style.display = 'none'; menuPanelTitle.innerHTML = '';
+    menuMain.style.display = 'flex';
+    menuBack.style.display = 'none';
+    menuPanelTitle.innerHTML = '<span class="menu-title-text">Menu</span>';
   }
 
   function showPanel(panelId) {
@@ -1319,9 +1431,16 @@
       currentPanel = panelStack.pop();
       document.getElementById(currentPanel).style.display = 'flex';
       menuPanelTitle.innerHTML = '<span class="menu-panel-title">' + (panelTitles[currentPanel] || '') + '</span>';
+      menuBack.style.display = panelStack.length > 0 ? 'flex' : 'none';
+      if (panelStack.length === 0) {
+        menuPanelTitle.innerHTML = '<span class="menu-panel-title">' + (panelTitles[currentPanel] || '') + '</span>';
+        menuBack.style.display = 'flex';
+      }
     } else {
-      currentPanel = null; menuMain.style.display = 'flex';
-      menuBack.style.display = 'none'; menuPanelTitle.innerHTML = '';
+      currentPanel = null;
+      menuMain.style.display = 'flex';
+      menuBack.style.display = 'none';
+      menuPanelTitle.innerHTML = '<span class="menu-title-text">Menu</span>';
     }
   }
 
@@ -1345,39 +1464,35 @@
     return { open: open, close: close };
   }
 
-  var menuPopup            = makePopup('menuPopupBackdrop',         'menuPopupClose');
-  var reportPopup          = makePopup('reportPopupBackdrop',       'reportPopupClose');
-  var followersPopup       = makePopup('followersPopupBackdrop',    'followersPopupClose');
-  var followingPopup       = makePopup('followingPopupBackdrop',    'followingPopupClose');
-  var friendsPopup         = makePopup('friendsPopupBackdrop',      'friendsPopupClose');
-  var avatarQualityPopup   = makePopup('avatarQualityPopupBackdrop','avatarQualityPopupClose');
-  var mediaPopup           = makePopup('mediaPopupBackdrop',        'mediaPopupClose');
+  var followersPopup     = makePopup('followersPopupBackdrop',    'followersPopupClose');
+  var followingPopup     = makePopup('followingPopupBackdrop',    'followingPopupClose');
+  var friendsPopup       = makePopup('friendsPopupBackdrop',      'friendsPopupClose');
+  var avatarQualityPopup = makePopup('avatarQualityPopupBackdrop','avatarQualityPopupClose');
+  var mediaPopup         = makePopup('mediaPopupBackdrop',        'mediaPopupClose');
+  var accentPickerPopup  = makePopup('accentPickerBackdrop',      'accentPickerClose');
 
-  document.getElementById('reportToggle').addEventListener('click', reportPopup.open);
   document.getElementById('btnViewFollowers').addEventListener('click', followersPopup.open);
   document.getElementById('btnViewFollowing').addEventListener('click', followingPopup.open);
   document.getElementById('btnViewFriends').addEventListener('click', friendsPopup.open);
   document.getElementById('btnDownloadAvatar').addEventListener('click', avatarQualityPopup.open);
   document.getElementById('btnShowMedia').addEventListener('click', mediaPopup.open);
 
-  var btnSendReport = document.getElementById('btnSendReport');
-  btnSendReport.addEventListener('click', function () {
-    btnSendReport.disabled = true;
-    btnSendReport.innerHTML = '<svg class="spinner" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.2)" stroke-width="2.5" stroke-linecap="round"/><path d="M12 3a9 9 0 0 1 9 9" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>';
-    setTimeout(function () { reportPopup.close(); btnSendReport.disabled = false; btnSendReport.innerHTML = 'Send report'; }, 2000);
-  });
-
   function makeCustomSelect(triggerId, dropdownId, valueId) {
     var trigger  = document.getElementById(triggerId);
     var dropdown = document.getElementById(dropdownId);
     var valueEl  = document.getElementById(valueId);
+    if (!trigger || !dropdown || !valueEl) return;
     trigger.addEventListener('click', function (e) {
       e.stopPropagation();
       var isOpen = dropdown.classList.contains('open');
-      dropdown.classList.toggle('open', !isOpen);
-      trigger.classList.toggle('open', !isOpen);
-      var bar = trigger.closest('.list-popup-bar');
-      if (bar && !isOpen) { dropdown.style.width = bar.offsetWidth + 'px'; }
+      document.querySelectorAll('.custom-select-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+      document.querySelectorAll('.custom-select-trigger.open').forEach(function (t) { t.classList.remove('open'); });
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        trigger.classList.add('open');
+        var bar = trigger.closest('.list-popup-bar');
+        if (bar) dropdown.style.width = bar.offsetWidth + 'px';
+      }
     });
     dropdown.querySelectorAll('.custom-select-option').forEach(function (opt) {
       opt.addEventListener('click', function () {
@@ -1390,59 +1505,163 @@
     });
   }
 
-  makeCustomSelect('reportTypeTrigger',      'reportTypeDropdown',      'reportTypeValue');
   makeCustomSelect('followersAmountTrigger', 'followersAmountDropdown', 'followersAmountValue');
   makeCustomSelect('followingAmountTrigger', 'followingAmountDropdown', 'followingAmountValue');
   makeCustomSelect('friendsAmountTrigger',   'friendsAmountDropdown',   'friendsAmountValue');
   makeCustomSelect('mediaTypeTrigger',       'mediaTypeDropdown',       'mediaTypeValue');
+  makeCustomSelect('menuReportTypeTrigger',  'menuReportTypeDropdown',  'menuReportTypeValue');
 
   document.addEventListener('click', function (e) {
-    ['reportTypeSelect','followersAmountSelect','followingAmountSelect','friendsAmountSelect','mediaTypeSelect'].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el && !el.contains(e.target)) {
-        var dd = el.querySelector('.custom-select-dropdown');
-        var tr = el.querySelector('.custom-select-trigger');
-        if (dd) dd.classList.remove('open');
-        if (tr) tr.classList.remove('open');
-      }
-    });
+    if (!e.target.closest('.custom-select')) {
+      document.querySelectorAll('.custom-select-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+      document.querySelectorAll('.custom-select-trigger.open').forEach(function (t) { t.classList.remove('open'); });
+    }
   });
 
   document.querySelectorAll('.btn-theme[data-theme-name]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       document.querySelectorAll('.btn-theme[data-theme-name]').forEach(function (b) { b.classList.remove('active'); });
       this.classList.add('active');
-      var chosen = this.dataset.themeName;
-      document.documentElement.setAttribute('data-theme', chosen);
+      document.documentElement.setAttribute('data-theme', this.dataset.themeName);
     });
   });
   document.documentElement.setAttribute('data-theme', 'aura');
 
-  document.querySelectorAll('.btn-theme[data-icon-style]').forEach(function (btn) {
+  document.querySelectorAll('[data-lang]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      document.querySelectorAll('.btn-theme[data-icon-style]').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('[data-lang]').forEach(function (b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      translatePage(this.dataset.lang);
+    });
+  });
+
+  document.querySelectorAll('[data-accent]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('[data-accent]').forEach(function (b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      if (this.dataset.accent === 'custom') accentPickerPopup.open();
+    });
+  });
+
+  document.getElementById('btnApplyAccent').addEventListener('click', function () {
+    var colour = document.getElementById('accentColorPicker').value;
+    document.documentElement.style.setProperty('--accent', colour);
+    var r = parseInt(colour.slice(1,3),16), g = parseInt(colour.slice(3,5),16), b = parseInt(colour.slice(5,7),16);
+    var dim = '#' + [r,g,b].map(function(c){return Math.max(0,Math.round(c*0.7)).toString(16).padStart(2,'0');}).join('');
+    document.documentElement.style.setProperty('--accent-dim', dim);
+    accentPickerPopup.close();
+  });
+
+  var currentIconStyle = 'outlined';
+  document.querySelectorAll('[data-icon-style]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('[data-icon-style]').forEach(function (b) { b.classList.remove('active'); });
+      this.classList.add('active');
+      currentIconStyle = this.dataset.iconStyle;
+      document.querySelectorAll('img[src*="/outlined/"], img[src*="/filled/"]').forEach(function (img) {
+        img.src = img.src.replace(/\/(outlined|filled)\//, '/' + currentIconStyle + '/');
+      });
+    });
+  });
+
+  document.getElementById('cornerRadiusInput').addEventListener('change', function () {
+    var val = Math.max(0, Math.min(30, parseInt(this.value) || 10));
+    this.value = val;
+    document.documentElement.style.setProperty('--radius', val + 'px');
+  });
+
+  var highlightingChevron = document.getElementById('highlightingChevron');
+  var highlightingDropdown = document.getElementById('highlightingDropdown');
+  var highlightingArrow = document.getElementById('highlightingArrow');
+  var highlightingValue = document.getElementById('highlightingValue');
+
+  highlightingChevron.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = highlightingDropdown.style.display !== 'none';
+    highlightingDropdown.style.display = open ? 'none' : 'flex';
+    highlightingArrow.style.transform = open ? '' : 'rotate(180deg)';
+  });
+
+  highlightingDropdown.querySelectorAll('.iface-dropdown-option').forEach(function (opt) {
+    opt.addEventListener('click', function () {
+      highlightingValue.textContent = this.textContent;
+      highlightingDropdown.style.display = 'none';
+      highlightingArrow.style.transform = '';
+      var radius = this.dataset.value === 'fully' ? '999px' : '6px';
+      document.querySelectorAll('.section-bar, .data-row, .menu-option').forEach(function (el) {
+        el.style.borderRadius = radius;
+      });
+    });
+  });
+
+  document.getElementById('btnFontCustom').addEventListener('click', function () {
+    document.getElementById('fontFileInput').click();
+  });
+
+  document.getElementById('fontFileInput').addEventListener('change', function () {
+    var file = this.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var style = document.createElement('style');
+      style.textContent = '@font-face { font-family: "CustomFont"; src: url("' + e.target.result + '"); } body, * { font-family: "CustomFont", system-ui, sans-serif !important; }';
+      document.head.appendChild(style);
+    };
+    reader.readAsDataURL(file);
+    document.querySelectorAll('[data-font]').forEach(function (b) { b.classList.remove('active'); });
+    document.getElementById('btnFontCustom').classList.add('active');
+  });
+
+  var effectSemi = false, effectGlass = false;
+
+  document.getElementById('effectSemiRow').addEventListener('click', function () {
+    effectSemi = !effectSemi;
+    document.getElementById('effectSemiRadio').classList.toggle('active', effectSemi);
+    document.documentElement.classList.toggle('effect-semi', effectSemi);
+    if (!effectSemi) {
+      document.querySelectorAll('.body-container, nav, .side-menu').forEach(function (el) {
+        el.style.background = '';
+        el.style.backdropFilter = '';
+        el.style.webkitBackdropFilter = '';
+      });
+    }
+  });
+
+  document.getElementById('effectGlassRow').addEventListener('click', function () {
+    effectGlass = !effectGlass;
+    document.getElementById('effectGlassRadio').classList.toggle('active', effectGlass);
+    document.documentElement.classList.toggle('effect-glass', effectGlass);
+    if (!effectGlass) {
+      document.querySelectorAll('.body-container, nav, .side-menu, .section-bar, .data-row').forEach(function (el) {
+        el.style.background = '';
+        el.style.backdropFilter = '';
+        el.style.webkitBackdropFilter = '';
+        el.style.borderColor = '';
+      });
+    }
+  });
+
+  document.querySelectorAll('[data-export-fmt]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('[data-export-fmt]').forEach(function (b) { b.classList.remove('active'); });
       this.classList.add('active');
     });
   });
 
-  var sizeVars = {
-    small:  { gap: '10px', navH: '56px', font: '14px' },
-    medium: { gap: '16px', navH: '62px', font: '14px' },
-    large:  { gap: '22px', navH: '70px', font: '15px' }
-  };
-  function applySize(size) {
-    var v = sizeVars[size] || sizeVars.small;
-    document.documentElement.style.setProperty('--gap', v.gap);
-    document.documentElement.style.setProperty('--nav-height', v.navH);
-    document.body.style.fontSize = v.font;
-    document.body.style.paddingTop = 'calc(' + v.navH + ' + ' + v.gap + ' * 2)';
-  }
-  document.querySelectorAll('.btn-theme[data-size]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      document.querySelectorAll('.btn-theme[data-size]').forEach(function (b) { b.classList.remove('active'); });
-      this.classList.add('active');
-      applySize(this.dataset.size);
-    });
+  var trackingEnabled = false;
+  document.getElementById('trackingToggleRow').addEventListener('click', function () {
+    trackingEnabled = !trackingEnabled;
+    document.getElementById('trackingRadio').classList.toggle('active', trackingEnabled);
+  });
+
+  var btnMenuSendReport = document.getElementById('btnMenuSendReport');
+  btnMenuSendReport.addEventListener('click', function () {
+    btnMenuSendReport.disabled = true;
+    btnMenuSendReport.innerHTML = '<svg style="width:18px;height:18px;animation:spin 0.75s linear infinite;" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="rgba(255,255,255,0.2)" stroke-width="2.5"/><path d="M12 3a9 9 0 0 1 9 9" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>';
+    setTimeout(function () {
+      btnMenuSendReport.disabled = false;
+      btnMenuSendReport.innerHTML = 'Send report';
+    }, 2000);
   });
 
   var currentLang = 'en';
@@ -1465,17 +1684,20 @@
   }
 
   async function translatePage(lang) {
+    currentLang = lang;
     collectTranslatables();
     var els = Array.from(document.querySelectorAll('[data-translate]'));
     if (lang === 'en') {
       els.forEach(function (el) { var o = originalTexts.get(el); if (o) el.textContent = o; });
-      langTranslateStatus.innerHTML = ''; return;
+      if (langTranslateStatus) langTranslateStatus.innerHTML = '';
+      return;
     }
     if (translationCache[lang]) {
       els.forEach(function (el) { var t = translationCache[lang][originalTexts.get(el)]; if (t) el.textContent = t; });
-      langTranslateStatus.innerHTML = ''; return;
+      if (langTranslateStatus) langTranslateStatus.innerHTML = '';
+      return;
     }
-    langTranslateStatus.innerHTML = '<p class="translate-loading">Translating\u2026</p>';
+    if (langTranslateStatus) langTranslateStatus.innerHTML = '<p class="translate-loading">Translating…</p>';
     translationCache[lang] = {};
     var unique = [], seen = {};
     els.forEach(function (el) { var t = originalTexts.get(el); if (t && !seen[t]) { seen[t] = true; unique.push(t); } });
@@ -1499,112 +1721,54 @@
         }
       }
       els.forEach(function (el) { var t = translationCache[lang][originalTexts.get(el)]; if (t) el.textContent = t; });
-      langTranslateStatus.innerHTML = '';
+      if (langTranslateStatus) langTranslateStatus.innerHTML = '';
     } catch(e) {
-      langTranslateStatus.innerHTML = '<p class="translate-loading">Translation failed \u2014 check your connection.</p>';
-      setTimeout(function () { langTranslateStatus.innerHTML = ''; }, 4000);
+      if (langTranslateStatus) langTranslateStatus.innerHTML = '<p class="translate-loading">Translation failed — check your connection.</p>';
+      setTimeout(function () { if (langTranslateStatus) langTranslateStatus.innerHTML = ''; }, 4000);
     }
   }
 
   collectTranslatables();
 
-  document.querySelectorAll('.btn-lang').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      currentLang = this.dataset.lang;
-      document.querySelectorAll('.btn-lang').forEach(function (b) { b.classList.remove('active'); });
-      this.classList.add('active');
-      translatePage(currentLang);
-    });
-  });
-
   (function () {
     var days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
     var hours = [];
     for (var i = 0; i < 24; i++) hours.push(i < 10 ? '0' + i : '' + i);
-
-    var CELL      = 18;
-    var GAP       = 4;
-    var DAY_W     = 72;
-    var HOUR_H    = 18;
-    var RADIUS    = 4;
-    var FONT_DAY  = 11;
-    var FONT_HOUR = 10;
-
+    var CELL = 18, GAP = 4, DAY_W = 72, HOUR_H = 18, RADIUS = 4, FONT_DAY = 11, FONT_HOUR = 10;
     var totalW = DAY_W + GAP + (CELL * 24) + (GAP * 23);
     var totalH = HOUR_H + GAP + (CELL * 7) + (GAP * 6);
-
     var svg = document.getElementById('heatmapSvg');
     if (!svg) return;
-
     svg.setAttribute('viewBox', '0 0 ' + totalW + ' ' + totalH);
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-
     var ns = 'http://www.w3.org/2000/svg';
-
     function el(tag, attrs) {
       var e = document.createElementNS(ns, tag);
       for (var k in attrs) e.setAttribute(k, attrs[k]);
       return e;
     }
-
-    function getVar(name) {
-      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    }
-
+    function getVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
     function draw() {
       while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-      var colMuted  = getVar('--text-muted');
-      var colCell   = getVar('--surface-2');
-
-      
+      var colMuted = getVar('--text-muted'), colCell = getVar('--surface-2');
       for (var h = 0; h < 24; h++) {
         var x = DAY_W + GAP + h * (CELL + GAP) + CELL / 2;
-        var t = el('text', {
-          x: x, y: HOUR_H - 4,
-          'text-anchor': 'middle',
-          'font-size': FONT_HOUR,
-          'font-family': 'Inter, system-ui, sans-serif',
-          fill: colMuted
-        });
-        t.textContent = hours[h];
-        svg.appendChild(t);
+        var t = el('text', { x: x, y: HOUR_H - 4, 'text-anchor': 'middle', 'font-size': FONT_HOUR, 'font-family': 'Inter, system-ui, sans-serif', fill: colMuted });
+        t.textContent = hours[h]; svg.appendChild(t);
       }
-
-      
       for (var d = 0; d < 7; d++) {
         var y = HOUR_H + GAP + d * (CELL + GAP);
-
-        
-        var dt = el('text', {
-          x: 0, y: y + CELL / 2 + FONT_DAY / 3,
-          'font-size': FONT_DAY,
-          'font-family': 'Inter, system-ui, sans-serif',
-          fill: colMuted
-        });
-        dt.textContent = days[d];
-        svg.appendChild(dt);
-
-        
+        var dt = el('text', { x: 0, y: y + CELL / 2 + FONT_DAY / 3, 'font-size': FONT_DAY, 'font-family': 'Inter, system-ui, sans-serif', fill: colMuted });
+        dt.textContent = days[d]; svg.appendChild(dt);
         for (var h2 = 0; h2 < 24; h2++) {
           var cx = DAY_W + GAP + h2 * (CELL + GAP);
-          var rect = el('rect', {
-            x: cx, y: y,
-            width: CELL, height: CELL,
-            rx: RADIUS, ry: RADIUS,
-            fill: colCell
-          });
-          svg.appendChild(rect);
+          svg.appendChild(el('rect', { x: cx, y: y, width: CELL, height: CELL, rx: RADIUS, ry: RADIUS, fill: colCell }));
         }
       }
     }
-
     draw();
-
-    var observer = new MutationObserver(draw);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   })();
-
 </script>
 </body>
 </html>
